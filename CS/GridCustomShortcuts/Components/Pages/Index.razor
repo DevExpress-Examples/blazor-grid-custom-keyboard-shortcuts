@@ -1,0 +1,101 @@
+﻿@page "/"
+@using GridCustomShortcuts.Services
+@inject IJSRuntime JS
+@attribute [StreamRendering(true)]
+@rendermode InteractiveServer
+@inject WeatherForecastService ForecastService
+@implements IAsyncDisposable
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div @ref="gridWrapper">
+        <DxGrid @ref="grid" Data="@forecasts" 
+        FocusedRowEnabled="true" 
+        EditMode="GridEditMode.EditCell" 
+        EditModelSaving="OnEditModelSaving"
+        CssClass="mw-1100" ValidationEnabled=false>
+            <Columns>
+                <DxGridSelectionColumn />
+                <DxGridDataColumn Caption="Date" FieldName="Date" />
+                <DxGridDataColumn Caption="Temperature (C)" FieldName="TemperatureC" />
+                <DxGridDataColumn Caption="Temperature (F)" FieldName="TemperatureF" />
+                <DxGridDataColumn Caption="Summary" FieldName="Summary" />
+            </Columns>
+        </DxGrid>
+    </div>
+
+
+    <DxPopup HeaderText="Forecast Entry"
+    @bind-Visible="@popupVisible"
+    BodyText="@("Viewing forecast for " + currentDate)">
+    </DxPopup>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+    private bool popupVisible;
+    private ElementReference gridWrapper;
+    private DateOnly currentDate;
+    private IGrid grid;
+    private IJSObjectReference? module;
+    private DotNetObjectReference<Index>? dotNetHelper;
+
+    [JSInvokable]
+    public async Task HandleKeyDown()
+    {
+        var focusedItem = grid.GetFocusedDataItem() as WeatherForecast;
+        if (focusedItem == null)
+            return;
+        await grid.SaveChangesAsync();
+        currentDate = focusedItem.Date;
+        popupVisible = true;
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public async Task SelectAllRows()
+    {
+        await grid.SelectAllAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import",
+                "./Components/Pages/Index.razor.js");
+            dotNetHelper = DotNetObjectReference.Create(this);
+            await module.InvokeVoidAsync("addCaptureKeyListener", gridWrapper, dotNetHelper);
+        }
+    }
+
+    private void OnEditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        e.CopyChangesToDataItem();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        dotNetHelper?.Dispose();
+        if (module is not null)
+        {
+            try
+            {
+                await module.InvokeVoidAsync("removeCaptureKeyListener");
+                await module.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+    }
+}
