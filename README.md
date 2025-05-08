@@ -12,7 +12,7 @@ This example binds custom keyboard shortcuts to the Grid component:
 - <kbd>Ctrl</kbd> + <kbd>A</kbd>: select all rows
 - <kbd>Shift</kbd> + <kbd>Enter</kbd>: open row details
 
-> **Note**:
+> [!NOTE]
 > For keyboard shortcuts to operate, the Grid component must be focused. To bring the grid into focus, click anywhere within its area.
 
 ## Implementation Details
