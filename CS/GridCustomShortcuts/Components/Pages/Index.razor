@@ -76,6 +76,7 @@ else
             module = await JS.InvokeAsync<IJSObjectReference>("import",
                 "./Components/Pages/Index.razor.js");
             dotNetHelper = DotNetObjectReference.Create(this);
+            await module.InvokeVoidAsync("focusGrid");
             await module.InvokeVoidAsync("addCaptureKeyListener", gridWrapper, dotNetHelper);
         }
     }

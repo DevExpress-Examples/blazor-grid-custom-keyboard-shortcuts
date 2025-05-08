@@ -24,3 +24,7 @@ export function removeCaptureKeyListener() {
         keydownHandler = null;
     }
 }
+
+export function focusGrid() {
+    document.getElementsByClassName('dxbl-grid')[0].focus();
+}
