@@ -6,6 +6,9 @@
 @inject WeatherForecastService ForecastService
 @implements IAsyncDisposable
 
+<PageTitle>Blazor Grid Keyboard Shortcuts</PageTitle>
+<h1>Weather Forecast</h1>
+
 @if (forecasts == null)
 {
     <p><em>Loading...</em></p>
@@ -13,13 +16,12 @@
 else
 {
     <div @ref="gridWrapper">
-        <DxGrid @ref="grid" Data="@forecasts" 
-        FocusedRowEnabled="true" 
-        EditMode="GridEditMode.EditCell" 
-        EditModelSaving="OnEditModelSaving"
-        CssClass="mw-1100" ValidationEnabled=false>
+        <DxGrid @ref="grid" Data="@forecasts"
+                FocusedRowEnabled="true"
+                EditModelSaving="OnEditModelSaving"
+                CssClass="mw-1100">
             <Columns>
-                <DxGridSelectionColumn />
+                <DxGridSelectionColumn Width="70px" />
                 <DxGridDataColumn Caption="Date" FieldName="Date" />
                 <DxGridDataColumn Caption="Temperature (C)" FieldName="TemperatureC" />
                 <DxGridDataColumn Caption="Temperature (F)" FieldName="TemperatureF" />
@@ -28,10 +30,10 @@ else
         </DxGrid>
     </div>
 
-
-    <DxPopup HeaderText="Forecast Entry"
-    @bind-Visible="@popupVisible"
-    BodyText="@("Viewing forecast for " + currentDate)">
+    <DxPopup HeaderText="@($"Weather Forecast for {selectedForecast?.Date:m}")"
+             @bind-Visible="@popupVisible">
+        <p><b>Temperature:</b> @selectedForecast?.TemperatureC °C</p>
+        <p><b>Summary:</b> @selectedForecast?.Summary</p>
     </DxPopup>
 }
 
@@ -39,7 +41,7 @@ else
     private WeatherForecast[]? forecasts;
     private bool popupVisible;
     private ElementReference gridWrapper;
-    private DateOnly currentDate;
+    private WeatherForecast? selectedForecast;
     private IGrid grid;
     private IJSObjectReference? module;
     private DotNetObjectReference<Index>? dotNetHelper;
@@ -51,7 +53,7 @@ else
         if (focusedItem == null)
             return;
         await grid.SaveChangesAsync();
-        currentDate = focusedItem.Date;
+        selectedForecast = focusedItem;
         popupVisible = true;
         StateHasChanged();
     }
@@ -74,6 +76,7 @@ else
             module = await JS.InvokeAsync<IJSObjectReference>("import",
                 "./Components/Pages/Index.razor.js");
             dotNetHelper = DotNetObjectReference.Create(this);
+            await module.InvokeVoidAsync("focusGrid");
             await module.InvokeVoidAsync("addCaptureKeyListener", gridWrapper, dotNetHelper);
         }
     }
