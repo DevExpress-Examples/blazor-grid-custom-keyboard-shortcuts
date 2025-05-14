@@ -37,13 +37,13 @@ In the `@code` section of the [Index.razor](CS/GridCustomShortcuts/Components/Pa
 3. Call the `addCaptureKeyListener` JavaScript function. Pass the `DotNetObjectReference` (for interoperability from JavaScript to .NET) and a reference to the `<div>` element that surrounds the grid (for capturing keyboard events.)
 4. Implement `SelectAllRows` and `HandleKeyDown` JSInvokable methods to handle operations triggered by keyboard shortcuts.
 
-For technical details, read [Call .NET methods from JavaScript functions in ASP.NET Core Blazor](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript) article.
+For technical details, read [this article](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript).
 
 ### Release Resources
 
 In the `@code` section of the [Index.razor](CS/GridCustomShortcuts/Components/Pages/Index.razor) page, implement a `DisposeAsync` method. It removes the keyboard event listener, cleans up JavaScript resources, and frees allocated memory.
 
-For technical details, read [Implement a DisposeAsync method](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync) article.
+For technical details, read [this article](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync).
 
 ## Files to Review
 
