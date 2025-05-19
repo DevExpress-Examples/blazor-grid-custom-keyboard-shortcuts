@@ -15,7 +15,7 @@ This example binds the following custom keyboard shortcuts to our Blazor Grid co
 
 ![Blazor Grid Custom Keyboard Shortcuts](images/grid-keyboard-shortcuts.gif)
 
-> [!NOTE]
+> **Note**:
 > For keyboard shortcuts to work properly, the DevExpress Blazor Grid component must be focused. To bring the grid into focus, click within the component.
 
 ## Implementation Details
