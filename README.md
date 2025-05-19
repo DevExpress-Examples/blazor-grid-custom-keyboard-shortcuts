@@ -5,23 +5,23 @@
 <!-- default badges end -->
 # Blazor Grid - Custom Keyboard Shortcuts
 
-The DevExpress Blazor [Grid](https://docs.devexpress.com/Blazor/403143/components/grid) supports a number of keyboard shortcuts out-of-the-box. You can also define custom key combinations to further enhance interaction speed and streamline workflows according to business requirements or user preferences.
+The DevExpress Blazor [Grid](https://docs.devexpress.com/Blazor/403143/components/grid) supports a series of built-in keyboard shortcuts. You can also define custom key combinations to further enhance input speed and/or streamline workflows based upon business requirements or user preferences.
 
-This example binds custom keyboard shortcuts to the Grid component:
+This example binds the following custom keyboard shortcuts to our Blazor Grid component:
 
-- <kbd>Ctrl</kbd> + <kbd>A</kbd>: select all rows
-- <kbd>Shift</kbd> + <kbd>Enter</kbd>: open row details
+- <kbd>Ctrl</kbd> + <kbd>A</kbd>: selects all rows
+- <kbd>Shift</kbd> + <kbd>Enter</kbd>: opens row details
 
 ![Blazor Grid Custom Keyboard Shortcuts](images/grid-keyboard-shortcuts.gif)
 
 > [!NOTE]
-> For keyboard shortcuts to operate, the Grid component must be focused. To bring the grid into focus, click anywhere within its area.
+> For keyboard shortcuts to work properly, the DevExpress Blazor Grid component must be focused. To bring the grid into focus, click within the component.
 
 ## Implementation Details
 
-Add [DxGrid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) and [DxPopup](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxPopup) components to the [page](CS/GridCustomShortcuts/Components/Pages/Index.razor). The popup will display the selected cell's details when a user presses <kbd>Shift</kbd> + <kbd>Enter</kbd>.
+Add [DxGrid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) and [DxPopup](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxPopup) components to the [page](CS/GridCustomShortcuts/Components/Pages/Index.razor). The popup will display selected cell details when a user presses <kbd>Shift</kbd> + <kbd>Enter</kbd>.
 
-Create a [JavaScript file](CS/GridCustomShortcuts/Components/Pages/Index.razor.js) in the project. This file implements the following functions for managing keyboard shortcuts:
+Create a [JavaScript file](CS/GridCustomShortcuts/Components/Pages/Index.razor.js) in the project. This file must implement the following functions for managing keyboard shortcuts:
 
 - `addCaptureKeyListener` - Attaches a keyboard event listener to the grid and defines custom shortcuts. To prevent default web browser actions for the same key combinations, call `event.stopPropagation();` within the event handler.
 - `removeCaptureKeyListener` - Removes the previously attached keyboard event listener.
@@ -36,13 +36,13 @@ In the `@code` section of the [Index.razor](CS/GridCustomShortcuts/Components/Pa
 3. Call the `addCaptureKeyListener` JavaScript function. Pass the `DotNetObjectReference` (for interoperability from JavaScript to .NET) and a reference to the `<div>` element that surrounds the grid (for capturing keyboard events.)
 4. Implement `SelectAllRows` and `HandleKeyDown` JSInvokable methods to handle operations triggered by keyboard shortcuts.
 
-For technical details, read [this article](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript).
+For additional information, please review the following [article](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript).
 
 ### Release Resources
 
 In the `@code` section of the [Index.razor](CS/GridCustomShortcuts/Components/Pages/Index.razor) page, implement a `DisposeAsync` method. It removes the keyboard event listener, cleans up JavaScript resources, and frees allocated memory.
 
-For technical details, read [this article](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync).
+For additional technical information, please review the following [article](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync).
 
 ## Files to Review
 
