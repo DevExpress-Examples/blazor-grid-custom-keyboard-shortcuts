@@ -11,6 +11,7 @@ This example binds the following custom keyboard shortcuts to our Blazor Grid co
 
 - <kbd>Ctrl</kbd> + <kbd>A</kbd>: selects all rows
 - <kbd>Shift</kbd> + <kbd>Enter</kbd>: opens row details
+- <kbd>Escape</kbd>: doesn't cancel editing.
 
 ![Blazor Grid Custom Keyboard Shortcuts](images/grid-keyboard-shortcuts.gif)
 
