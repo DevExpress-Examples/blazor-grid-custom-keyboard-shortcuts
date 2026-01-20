@@ -5,13 +5,13 @@
 <!-- default badges end -->
 # Blazor Grid - Custom Keyboard Shortcuts
 
-The DevExpress Blazor [Grid](https://docs.devexpress.com/Blazor/403143/components/grid) supports a series of built-in keyboard shortcuts. You can also define custom key combinations to further enhance input speed and/or streamline workflows based upon business requirements or user preferences.
+The DevExpress Blazor [Grid](https://docs.devexpress.com/Blazor/403143/components/grid) supports a series of built-in keyboard shortcuts. You can also alternate key combinations to further enhance input speed and/or streamline workflows based upon business requirements or user preferences.
 
-This example binds the following custom keyboard shortcuts to our Blazor Grid component:
+This example modifies keyboard shortcuts in our Blazor Grid component as follows:
 
 - <kbd>Ctrl</kbd> + <kbd>A</kbd>: selects all rows
 - <kbd>Shift</kbd> + <kbd>Enter</kbd>: opens row details
-- <kbd>Escape</kbd>: doesn't cancel editing.
+- <kbd>Escape</kbd>: discards the default capability to cancel editing
 
 ![Blazor Grid Custom Keyboard Shortcuts](images/grid-keyboard-shortcuts.gif)
 
@@ -63,3 +63,4 @@ For additional technical information, please review the following [article](http
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
