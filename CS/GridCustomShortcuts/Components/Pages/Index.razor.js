@@ -13,6 +13,10 @@ export function addCaptureKeyListener(element, dotNetHelper) {
                 event.preventDefault();
                 dotNetHelper.invokeMethodAsync('SelectAllRows');
             }
+
+            if (event.key === "Escape" && element.contains(event.target) && event.target.nodeName == "INPUT") {
+                event.stopPropagation();
+            }
         };
         window.addEventListener('keydown', keydownHandler, true);
     }

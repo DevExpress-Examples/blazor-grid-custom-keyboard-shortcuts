@@ -18,9 +18,11 @@ else
     <div @ref="gridWrapper">
         <DxGrid @ref="grid" Data="@forecasts"
                 FocusedRowEnabled="true"
+                EditMode="GridEditMode.EditRow"
                 EditModelSaving="OnEditModelSaving"
                 CssClass="mw-1100">
             <Columns>
+                <DxGridCommandColumn/>
                 <DxGridSelectionColumn Width="70px" />
                 <DxGridDataColumn Caption="Date" FieldName="Date" />
                 <DxGridDataColumn Caption="Temperature (C)" FieldName="TemperatureC" />
