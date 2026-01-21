@@ -16,17 +16,17 @@ This example modifies keyboard shortcuts in our Blazor Grid component as follows
 ![Blazor Grid Custom Keyboard Shortcuts](images/grid-keyboard-shortcuts.gif)
 
 > **Note**:
-> For keyboard shortcuts to work properly, the DevExpress Blazor Grid component must be focused. To bring the grid into focus, click within the component.
+> DevExpress Blazor Grid keyboard shortcuts work when the component has input focus. To bring the grid into focus, click within the component.
 
 ## Implementation Details
 
-Add [DxGrid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) and [DxPopup](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxPopup) components to the [page](CS/GridCustomShortcuts/Components/Pages/Index.razor). The popup will display selected cell details when a user presses <kbd>Shift</kbd> + <kbd>Enter</kbd>.
+Add [DxGrid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) and [DxPopup](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxPopup) components to the [page](CS/GridCustomShortcuts/Components/Pages/Index.razor). The popup will display selected row details when a user presses <kbd>Shift</kbd> + <kbd>Enter</kbd>.
 
 Create a [JavaScript file](CS/GridCustomShortcuts/Components/Pages/Index.razor.js) in the project. This file must implement the following functions for managing keyboard shortcuts:
 
 - `addCaptureKeyListener` - Attaches a keyboard event listener to the grid and defines custom shortcuts. To prevent default web browser actions for the same key combinations, call `event.stopPropagation();` within the event handler.
 - `removeCaptureKeyListener` - Removes the previously attached keyboard event listener.
-- `focusGrid` - Focus the grid programmatically on page load. This ensures shortcuts are instantly available.
+- `focusGrid` - Focuses the grid programmatically on page load (activates grid-specific shortcuts).
 
 ### Bind JavaScript with .NET Code
 
@@ -34,16 +34,16 @@ In the `@code` section of the [Index.razor](CS/GridCustomShortcuts/Components/Pa
 
 1. Register the JavaScript code in `OnAfterRenderAsync` lifecycle method.
 2. Call the `focusGrid` JavaScript function.
-3. Call the `addCaptureKeyListener` JavaScript function. Pass the `DotNetObjectReference` (for interoperability from JavaScript to .NET) and a reference to the `<div>` element that surrounds the grid (for capturing keyboard events.)
+3. Call the `addCaptureKeyListener` JavaScript function. Pass the `DotNetObjectReference` (for interoperability from JavaScript to .NET) and a reference to the `<div>` element that surrounds the grid (for capturing keyboard events).
 4. Implement `SelectAllRows` and `HandleKeyDown` JSInvokable methods to handle operations triggered by keyboard shortcuts.
 
-For additional information, please review the following [article](https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript).
+For additional information, please review the following article: [Call .NET methods from JavaScript functions in ASP.NET Core Blazor](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync).
 
 ### Release Resources
 
 In the `@code` section of the [Index.razor](CS/GridCustomShortcuts/Components/Pages/Index.razor) page, implement a `DisposeAsync` method. It removes the keyboard event listener, cleans up JavaScript resources, and frees allocated memory.
 
-For additional technical information, please review the following [article](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync).
+For additional technical information, please review the following article: [Implement a DisposeAsync method](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync).
 
 ## Files to Review
 
@@ -63,4 +63,5 @@ For additional technical information, please review the following [article](http
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
 
