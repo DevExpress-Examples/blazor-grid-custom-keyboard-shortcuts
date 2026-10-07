@@ -9,12 +9,10 @@
 <PageTitle>Blazor Grid Keyboard Shortcuts</PageTitle>
 <h1>Weather Forecast</h1>
 
-@if (forecasts == null)
-{
+@if (forecasts == null) {
     <p><em>Loading...</em></p>
 }
-else
-{
+else {
     <div @ref="gridWrapper">
         <DxGrid @ref="grid" Data="@forecasts"
                 FocusedRowEnabled="true"
@@ -49,8 +47,7 @@ else
     private DotNetObjectReference<Index>? dotNetHelper;
 
     [JSInvokable]
-    public async Task HandleKeyDown()
-    {
+    public async Task HandleKeyDown() {
         var focusedItem = grid.GetFocusedDataItem() as WeatherForecast;
         if (focusedItem == null)
             return;
@@ -61,20 +58,16 @@ else
     }
 
     [JSInvokable]
-    public async Task SelectAllRows()
-    {
+    public async Task SelectAllRows() {
         await grid.SelectAllAsync();
     }
 
-    protected override async Task OnInitializedAsync()
-    {
+    protected override async Task OnInitializedAsync() {
         forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender) {
             module = await JS.InvokeAsync<IJSObjectReference>("import",
                 "./Components/Pages/Index.razor.js");
             dotNetHelper = DotNetObjectReference.Create(this);
@@ -83,24 +76,18 @@ else
         }
     }
 
-    private void OnEditModelSaving(GridEditModelSavingEventArgs e)
-    {
+    private void OnEditModelSaving(GridEditModelSavingEventArgs e) {
         e.CopyChangesToDataItem();
     }
 
-    public async ValueTask DisposeAsync()
-    {
+    public async ValueTask DisposeAsync() {
         dotNetHelper?.Dispose();
-        if (module is not null)
-        {
-            try
-            {
+        if (module is not null) {
+            try {
                 await module.InvokeVoidAsync("removeCaptureKeyListener");
                 await module.DisposeAsync();
             }
-            catch (JSDisconnectedException)
-            {
-            }
+            catch (JSDisconnectedException) { }
         }
     }
 }
